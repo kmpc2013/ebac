@@ -1,0 +1,13 @@
+services:
+  api:
+    build: .
+    env_file: .env
+    container_name: api-livros
+    ports:
+      - "8000:8000"
+    volumes:
+      - livros_data:/app
+    restart: unless-stopped
+
+volumes:
+  livros_data:

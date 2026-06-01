@@ -1,35 +1,115 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from pydantic import BaseModel
+from typing import Optional
+from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Session
+import secrets
+import os
 
-app = FastAPI()
-tarefas = []
+DATABASE_URL = os.getenv("DATABASE_URL")
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+app = FastAPI(
+    title="API de livros",
+    description="API para gerenciar catálogo de livros",
+    version="1.0.0",
+    contact={
+        "name": "Luis Fernandes",
+        "email": "luis.fernandes@sercompe.com.br"
+    }
+
+)
+
+MEU_USUARIO = os.getenv("MEU_USUARIO")
+MINHA_SENHA = os.getenv("MINHA_SENHA")
+security = HTTPBasic()
+
+livros = {}
+
+class LivroDB(Base):
+    __tablename__ = "livros"
+    id = Column(Integer, primary_key=True, index=True)
+    nome_livro = Column(String, index=True)
+    autor_livro = Column(String, index=True)
+    ano_livro = Column(Integer, index=True)
+
+class Livro(BaseModel):
+    nome_livro: str
+    autor_livro: str
+    ano_livro: int
 
 
-@app.get("/tarefa")
-def get_tarefa():
-    if not tarefas:
-        raise HTTPException(status_code=400, detail="Nenhuma tarefa cadastrada")
-    return tarefas
+def sessao_db():
+    db = session()
+    try:
+        yield db
+    finally:
+        db.close()
 
-@app.post("/tarefa")
-def post_tarefa(nome: str, desc: str):
-    if any(t["nome"] == nome for t in tarefas):
-        raise HTTPException(status_code=404, detail="Tarefa já existe")
-    tarefas.append({"nome": nome, "descricao": desc, "concluida": False})
-    return {"message": "Tarefa '{}' criada com sucesso".format(nome)}
+def autenticar(credentials: HTTPBasicCredentials = Depends(security)):
+    is_username_correct = secrets.compare_digest(credentials.username, MEU_USUARIO)
+    is_password_correct = secrets.compare_digest(credentials.password, MINHA_SENHA)
 
-@app.put("/tarefa")
-def put_tarefa(nome: str):
-    for tarefa in tarefas:
-        if tarefa["nome"] == nome:
-            tarefa["concluida"] = True
-            return {"message": "Tarefa '{}' concluida!".format(nome)} 
-    raise HTTPException(status_code=404, detail="Tarefa não existe")
+    if not (is_username_correct and is_password_correct):
+        raise HTTPException(
+            status_code=401,
+            detail="Usuário ou senha incorretos",
+            headers={"WWW-Authenticate": "Basic"}
+        )
 
+Base.metadata.create_all(bind=engine)
 
-@app.delete("/tarefa")
-def delete_tarefa(nome: str):
-    for i, tarefa in enumerate(tarefas):
-        if tarefa["nome"] == nome:
-            del tarefas[i]
-            return {"message": "Tarefa '{}' removida!".format(nome)}
-    raise HTTPException(status_code=404, detail="Tarefa não existe")
+@app.get("/")
+def hellow_world():
+    return {"Hello": "World!"}
+
+@app.get("/livros")
+def get_livros(page: int = 1, limit: int = 10, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    if page < 1 or limit < 1:
+        raise HTTPException(status_code=400, detail="Page ou limit estão com valores inválidos.")
+    livros = db.query(LivroDB).offset((page - 1) * limit).limit(limit).all()
+    if not livros:
+        return {"message": "Nenhum livro encontrado."}
+    total_livros = db.query(LivroDB).count()
+    return {    
+        "page": page,
+        "limit": limit,
+        "total": total_livros,
+        "livros": [{"id": livro.id, "nome_livro": livro.nome_livro, "autor_livro": livro.autor_livro, "ano_livro": livro.ano_livro} for livro in livros]
+        }
+
+@app.post("/adiciona")
+def post_livro(livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    db_livro = db.query(LivroDB).filter(LivroDB.nome_livro == livro.nome_livro).first()
+    if db_livro:
+        raise HTTPException(status_code=400, detail="Livro já existe.")
+    novo_livro = LivroDB(nome_livro=livro.nome_livro, autor_livro=livro.autor_livro, ano_livro=livro.ano_livro)
+    db.add(novo_livro)
+    db.commit()
+    db.refresh(novo_livro)
+    return {"message": "Livro adicionado!!"}
+
+@app.put("/atualiza/{id_livro}")
+def put_livro(id_livro: int, livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    db_livro = db.query(LivroDB).filter(LivroDB.id == id_livro).first()
+    if not db_livro:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+    db_livro.nome_livro = livro.nome_livro
+    db_livro.autor_livro = livro.autor_livro
+    db_livro.ano_livro = livro.ano_livro
+    db.commit()
+    db.refresh(db_livro)
+    return {"message": "Livro atualizado!!"}
+
+@app.delete("/deletar/{id_livro}")
+def delete_livro(id_livro: int, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    db_livro = db.query(LivroDB).filter(LivroDB.id == id_livro).first()
+    if not db_livro:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+    db.delete(db_livro)
+    db.commit()
+    return {"message": "Livro deletado!!"}

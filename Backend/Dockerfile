@@ -1,20 +1,23 @@
-FROM ghcr.io/astral-sh/uv:python3.14-bookworm-slim
+FROM python:3.14-slim-bookworm
 
-ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+ENV POETRY_VERSION=2.1.3 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_NO_INTERACTION=1 \
+    PATH="/opt/poetry/bin:$PATH"
+
+RUN pip install --no-cache-dir poetry==${POETRY_VERSION}
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock README.md ./
+COPY pyproject.toml poetry.lock ./
 
-RUN uv sync --frozen --no-install-project --no-dev
+RUN poetry install --only main --no-root
 
 COPY main.py ./
-
-RUN uv sync --frozen --no-dev
 
 RUN touch livros.db
 
 EXPOSE 8000
 
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

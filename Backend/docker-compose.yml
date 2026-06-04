@@ -1,7 +1,10 @@
 services:
   api:
     build: .
-    env_file: .env
+    environment:
+      - DATABASE_URL=sqlite:///./livros.db
+      - MEU_USUARIO=admin
+      - MINHA_SENHA=admin
     container_name: api-livros
     ports:
       - "8000:8000"

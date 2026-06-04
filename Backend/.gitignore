@@ -1,4 +1,6 @@
 .env
 .venv
-__pycache__
+poetry.toml
+__pycache__/*
 livros.db
+scripts/__pycache__/*

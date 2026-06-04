@@ -1,6 +1,5 @@
 .env
 .venv
-poetry.toml
 __pycache__/*
 livros.db
 scripts/__pycache__/*

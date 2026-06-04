@@ -1,15 +1,25 @@
 services:
+  redis:
+    image: redis:latest
+    container_name: redis-livros
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
   api:
     build: .
     environment:
       - DATABASE_URL=sqlite:///./livros.db
       - MEU_USUARIO=admin
       - MINHA_SENHA=admin
+      - REDIS_URL=redis://redis:6379/0
     container_name: api-livros
     ports:
       - "8000:8000"
     volumes:
       - livros_data:/app
+    depends_on:
+      - redis
     restart: unless-stopped
 
 volumes:

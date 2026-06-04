@@ -1,3 +1,10 @@
+import asyncio
+import json
+import os
+import secrets
+import redis
+
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
@@ -5,34 +12,25 @@ from typing import Optional
 from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
-from dotenv import load_dotenv
-import secrets
-import os
-import asyncio
+
+# ---------------------------------------------------------------------------
+# Configuração
+# ---------------------------------------------------------------------------
 
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 MEU_USUARIO = os.getenv("MEU_USUARIO")
 MINHA_SENHA = os.getenv("MINHA_SENHA")
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+
+# ---------------------------------------------------------------------------
+# Banco de dados
+# ---------------------------------------------------------------------------
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
-security = HTTPBasic()
 session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-app = FastAPI(
-    title="API de livros",
-    description="API para gerenciar catálogo de livros",
-    version="1.0.0",
-    contact={
-        "name": "Luis Fernandes",
-        "email": "luis.fernandes@sercompe.com.br"
-    }
-
-)
-
-
-livros = {}
 
 class LivroDB(Base):
     __tablename__ = "livros"
@@ -41,10 +39,39 @@ class LivroDB(Base):
     autor_livro = Column(String, index=True)
     ano_livro = Column(Integer, index=True)
 
+
+Base.metadata.create_all(bind=engine)
+
+# ---------------------------------------------------------------------------
+# Schemas
+# ---------------------------------------------------------------------------
+
 class Livro(BaseModel):
     nome_livro: str
     autor_livro: str
     ano_livro: int
+
+# ---------------------------------------------------------------------------
+# Redis
+# ---------------------------------------------------------------------------
+
+redis_client = redis.from_url(
+    REDIS_URL,
+    decode_responses=True,
+    socket_connect_timeout=2,
+)
+
+def salvar_livro_redis(livro_id: int, livro: Livro):
+    redis_client.set(f"livro:{livro_id}", json.dumps(livro.dict()))
+
+def deletar_livro_redis(livro_id: int):
+    redis_client.delete(f"livro:{livro_id}")
+
+# ---------------------------------------------------------------------------
+# Dependências
+# ---------------------------------------------------------------------------
+
+security = HTTPBasic()
 
 
 def sessao_db():
@@ -65,11 +92,107 @@ def autenticar(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"}
         )
 
-Base.metadata.create_all(bind=engine)
+# ---------------------------------------------------------------------------
+# Aplicação
+# ---------------------------------------------------------------------------
+
+app = FastAPI(
+    title="API de livros",
+    description="API para gerenciar catálogo de livros",
+    version="1.0.0",
+    contact={
+        "name": "Luis Fernandes",
+        "email": "luis.fernandes@sercompe.com.br"
+    }
+
+)
+
+# ---------------------------------------------------------------------------
+# Rotas — saúde
+# ---------------------------------------------------------------------------
 
 @app.get("/")
 async def hellow_world():
     return {"Hello": "World!"}
+
+# ---------------------------------------------------------------------------
+# Rotas — livros (CRUD)
+# ---------------------------------------------------------------------------
+
+@app.get("/livros")
+def get_livros(
+    page: int = 1,
+    limit: int = 10,
+    db: Session = Depends(sessao_db),
+    credentials: HTTPBasicCredentials = Depends(autenticar)
+    ):
+    if page < 1 or limit < 1:
+        raise HTTPException(status_code=400, detail="Page ou limit estão com valores inválidos.")
+     
+    cache_key = f"livros:page={page}:limit={limit}"
+    cached = redis_client.get(cache_key)
+
+    if cached:
+        return json.loads(cached)
+    livros = db.query(LivroDB).offset((page - 1) * limit).limit(limit).all()
+    if not livros:
+        return {"message": "Nenhum livro encontrado."}
+    
+    total_livros = db.query(LivroDB).count()
+    resposta = {
+        "page": page,
+        "limit": limit,
+        "total": total_livros,
+        "livros": [
+            {
+                "id": livro.id, 
+                "nome_livro": livro.nome_livro, 
+                "autor_livro": livro.autor_livro, 
+                "ano_livro": livro.ano_livro
+            } for livro in livros
+        ]
+    }
+    redis_client.setex(cache_key, 30,  json.dumps(resposta))
+    return resposta
+
+
+@app.post("/adiciona")
+async def post_livro(livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    db_livro = db.query(LivroDB).filter(LivroDB.nome_livro == livro.nome_livro).first()
+    if db_livro:
+        raise HTTPException(status_code=400, detail="Livro já existe.")
+    novo_livro = LivroDB(nome_livro=livro.nome_livro, autor_livro=livro.autor_livro, ano_livro=livro.ano_livro)
+    db.add(novo_livro)
+    db.commit()
+    db.refresh(novo_livro)
+    salvar_livro_redis(novo_livro.id, livro)
+    return {"message": "Livro adicionado!!"}
+
+@app.put("/atualiza/{id_livro}")
+async def put_livro(id_livro: int, livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    db_livro = db.query(LivroDB).filter(LivroDB.id == id_livro).first()
+    if not db_livro:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+    db_livro.nome_livro = livro.nome_livro
+    db_livro.autor_livro = livro.autor_livro
+    db_livro.ano_livro = livro.ano_livro
+    db.commit()
+    db.refresh(db_livro)
+    return {"message": "Livro atualizado!!"}
+
+@app.delete("/deletar/{id_livro}")
+async def delete_livro(id_livro: int, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
+    db_livro = db.query(LivroDB).filter(LivroDB.id == id_livro).first()
+    if not db_livro:
+        raise HTTPException(status_code=404, detail="Livro não encontrado")
+    db.delete(db_livro)
+    db.commit()
+    deletar_livro_redis(id_livro)
+    return {"message": "Livro deletado!!"}
+
+# ---------------------------------------------------------------------------
+# Rotas — demonstração
+# ---------------------------------------------------------------------------
 
 async def chamadas_externas_1():
     await asyncio.sleep(2)
@@ -98,49 +221,20 @@ async def chamadas_externas():
         "resultado": [resultado1, resultado2, resultado3]
     }
 
-@app.get("/livros")
-async def get_livros(page: int = 1, limit: int = 10, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
-    if page < 1 or limit < 1:
-        raise HTTPException(status_code=400, detail="Page ou limit estão com valores inválidos.")
-    livros = db.query(LivroDB).offset((page - 1) * limit).limit(limit).all()
-    if not livros:
-        return {"message": "Nenhum livro encontrado."}
-    total_livros = db.query(LivroDB).count()
-    return {    
-        "page": page,
-        "limit": limit,
-        "total": total_livros,
-        "livros": [{"id": livro.id, "nome_livro": livro.nome_livro, "autor_livro": livro.autor_livro, "ano_livro": livro.ano_livro} for livro in livros]
-        }
+# ---------------------------------------------------------------------------
+# Rotas — debug
+# ---------------------------------------------------------------------------
 
-@app.post("/adiciona")
-async def post_livro(livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
-    db_livro = db.query(LivroDB).filter(LivroDB.nome_livro == livro.nome_livro).first()
-    if db_livro:
-        raise HTTPException(status_code=400, detail="Livro já existe.")
-    novo_livro = LivroDB(nome_livro=livro.nome_livro, autor_livro=livro.autor_livro, ano_livro=livro.ano_livro)
-    db.add(novo_livro)
-    db.commit()
-    db.refresh(novo_livro)
-    return {"message": "Livro adicionado!!"}
-
-@app.put("/atualiza/{id_livro}")
-async def put_livro(id_livro: int, livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
-    db_livro = db.query(LivroDB).filter(LivroDB.id == id_livro).first()
-    if not db_livro:
-        raise HTTPException(status_code=404, detail="Livro não encontrado")
-    db_livro.nome_livro = livro.nome_livro
-    db_livro.autor_livro = livro.autor_livro
-    db_livro.ano_livro = livro.ano_livro
-    db.commit()
-    db.refresh(db_livro)
-    return {"message": "Livro atualizado!!"}
-
-@app.delete("/deletar/{id_livro}")
-async def delete_livro(id_livro: int, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):
-    db_livro = db.query(LivroDB).filter(LivroDB.id == id_livro).first()
-    if not db_livro:
-        raise HTTPException(status_code=404, detail="Livro não encontrado")
-    db.delete(db_livro)
-    db.commit()
-    return {"message": "Livro deletado!!"}
+@app.get("/debug/redis")
+def ver_livros_redis():
+    chaves = redis_client.keys("livros:*")
+    livros = []
+    for chave in chaves:
+        valor = redis_client.get(chave)
+        ttl = redis_client.ttl(chave)
+        livros.append({
+            "chave": chave,
+            "valor": json.loads(valor),
+            "ttl": ttl
+        })
+    return livros

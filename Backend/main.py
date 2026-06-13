@@ -12,6 +12,10 @@ from typing import Optional
 from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
+from fastapi import BackgroundTasks
+from tasks import somar, fatorial
+from celery_app import celery_app
+from celery.result import AsyncResult
 
 # ---------------------------------------------------------------------------
 # Configuração
@@ -21,7 +25,6 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 MEU_USUARIO = os.getenv("MEU_USUARIO")
 MINHA_SENHA = os.getenv("MINHA_SENHA")
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 # ---------------------------------------------------------------------------
 # Banco de dados
@@ -55,10 +58,11 @@ class Livro(BaseModel):
 # Redis
 # ---------------------------------------------------------------------------
 
-redis_client = redis.from_url(
-    REDIS_URL,
+redis_client = redis.Redis(
+    host='redis',
+    port=6379,
+    db=0,
     decode_responses=True,
-    socket_connect_timeout=2,
 )
 
 def salvar_livro_redis(livro_id: int, livro: Livro):
@@ -114,6 +118,22 @@ app = FastAPI(
 @app.get("/")
 async def hellow_world():
     return {"Hello": "World!"}
+
+# ---------------------------------------------------------------------------
+# Rotas — celery
+# ---------------------------------------------------------------------------
+
+@app.post("/celery/soma")
+def calcular_soma(a: int, b: int, background_tasks: BackgroundTasks):
+    task = somar.delay(a, b)
+    background_tasks.add_task(task)
+    return {"task_id": task.id, "message": "Tarefa enviada para o celery"}
+
+@app.post("/celery/fatorial")
+def calcular_fatorial(n: int, background_tasks: BackgroundTasks):
+    task = fatorial.delay(n)
+    background_tasks.add_task(task)
+    return {"task_id": task.id, "message": "Tarefa enviada para o celery"}
 
 # ---------------------------------------------------------------------------
 # Rotas — livros (CRUD)

@@ -16,12 +16,14 @@ services:
       - celery_venv:/app/.venv
     depends_on:
       - redis
+    env_file:
+      - .env
     
 
   api:
     build: .
     environment:
-      - DATABASE_URL=sqlite:///./livros.db
+      - DATABASE_URL=sqlite:///./data/livros.db
       - MEU_USUARIO=admin
       - MINHA_SENHA=admin
       - REDIS_URL=redis://redis:6379/0
@@ -29,7 +31,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - livros_data:/app
+      - livros_data:/app/data
     depends_on:
       - redis
     restart: unless-stopped

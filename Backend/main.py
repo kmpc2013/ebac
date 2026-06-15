@@ -12,7 +12,6 @@ from typing import Optional
 from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
-from fastapi import BackgroundTasks
 from tasks import somar, fatorial
 from celery_app import celery_app
 from celery.result import AsyncResult
@@ -25,6 +24,8 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 MEU_USUARIO = os.getenv("MEU_USUARIO")
 MINHA_SENHA = os.getenv("MINHA_SENHA")
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+REDIS_PORT = os.getenv("REDIS_PORT", "6379")
 
 # ---------------------------------------------------------------------------
 # Banco de dados
@@ -33,7 +34,7 @@ MINHA_SENHA = os.getenv("MINHA_SENHA")
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
-
+redis_client = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, db=0, decode_responses=True)
 
 class LivroDB(Base):
     __tablename__ = "livros"
@@ -123,17 +124,32 @@ async def hellow_world():
 # Rotas — celery
 # ---------------------------------------------------------------------------
 
-@app.post("/celery/soma")
-def calcular_soma(a: int, b: int, background_tasks: BackgroundTasks):
-    task = somar.delay(a, b)
-    background_tasks.add_task(task)
-    return {"task_id": task.id, "message": "Tarefa enviada para o celery"}
+@app.post("/calcular/soma")
+def calcular_soma(a: int, b: int):
+    tarefa = somar.delay(a, b)
+    redis_client.lpush("tarefas_ids", tarefa.id)
+    redis_client.ltrim("tarefas_ids", 0, 49) 
+    return {"task_id": tarefa.id, "message": "Tarefa de soma enviada para execução!"}
 
-@app.post("/celery/fatorial")
-def calcular_fatorial(n: int, background_tasks: BackgroundTasks):
-    task = fatorial.delay(n)
-    background_tasks.add_task(task)
-    return {"task_id": task.id, "message": "Tarefa enviada para o celery"}
+@app.post("/calcular/fatorial")
+def calcular_fatorial(n: int):
+    tarefa = fatorial.delay(n)
+    redis_client.lpush("tarefas_ids", tarefa.id)
+    redis_client.ltrim("tarefas_ids", 0, 49) 
+    return {"task_id": tarefa.id, "message": "Tarefa de fatorial enviada para execução!"}
+
+@app.get("/tarefas/recentes")
+def listar_tarefas_recentes():
+    tarefas_ids = redis_client.lrange("tarefas_ids", 0, 49)
+    tarefas_info = []
+    for task_id in tarefas_ids:
+        resultado = AsyncResult(task_id, app=celery_app)
+        tarefas_info.append({
+            "task_id": task_id,
+            "status": resultado.status,
+            "result": resultado.result if resultado.successful() else None
+        })
+    return {"tarefas": tarefas_info}
 
 # ---------------------------------------------------------------------------
 # Rotas — livros (CRUD)
@@ -174,7 +190,6 @@ def get_livros(
     }
     redis_client.setex(cache_key, 30,  json.dumps(resposta))
     return resposta
-
 
 @app.post("/adiciona")
 async def post_livro(livro: Livro, db: Session = Depends(sessao_db), credentials: HTTPBasicCredentials = Depends(autenticar)):

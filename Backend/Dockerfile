@@ -14,7 +14,7 @@ COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-COPY main.py celery_app.py tasks.py ./
+COPY main.py celery_app.py tasks.py kafka_producer.py ./
 
 RUN mkdir -p data && touch data/livros.db
 

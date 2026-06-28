@@ -15,6 +15,3 @@ dependencies = [
     "pytest-cover>=3.0.0",
     "fakeredis>=2.36.2",
 ]
-
-[tool.pytest.init_options]
-pythonpath = ["."]

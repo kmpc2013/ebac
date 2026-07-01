@@ -1,0 +1,114 @@
+<mxfile host="Electron">
+  <diagram name="Página-1" id="wKXT8_8bTK-yPzNOp03_">
+    <mxGraphModel dx="1786" dy="856" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; font-weight: 400; text-align: start; white-space: nowrap;&quot;&gt;📦&lt;/span&gt;Organização" vertex="1">
+          <mxGeometry height="425" width="690" x="300" y="715" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-18" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; font-weight: 400; text-align: start; white-space: nowrap;&quot;&gt;🧠&lt;/span&gt;Filosofia" vertex="1">
+          <mxGeometry height="120" width="360" x="80" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Testes antes do código" vertex="1">
+          <mxGeometry height="60" width="120" x="120" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Design guiado por testes" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-27" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;curved=1;" target="Tzc-8lZmMvzsrZfGIFRI-26">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="540" />
+              <mxPoint x="960" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; font-weight: 400; text-align: start; white-space: nowrap;&quot;&gt;🔄&lt;/span&gt;Ciclo" vertex="1">
+          <mxGeometry height="280" width="510" x="480" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-12" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; white-space: nowrap;&quot;&gt;🔴&lt;/span&gt;RED" vertex="1">
+          <mxGeometry height="60" width="120" x="500" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-14" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; white-space: nowrap;&quot;&gt;🟢&lt;/span&gt;GREEN" vertex="1">
+          <mxGeometry height="60" width="120" x="850" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-16" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;" target="Tzc-8lZmMvzsrZfGIFRI-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; white-space: nowrap;&quot;&gt;🔵&lt;/span&gt;REFACTOR" vertex="1">
+          <mxGeometry height="60" width="120" x="680" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1. Escreva um teste que falhe" vertex="1">
+          <mxGeometry height="30" width="120" x="680" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="2. Escreva código suficiente para passar no teste" vertex="1">
+          <mxGeometry height="30" width="120" x="770" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="3. Melhore o código mantendo os testes verdes" vertex="1">
+          <mxGeometry height="30" width="120" x="560" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-28" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;" target="Tzc-8lZmMvzsrZfGIFRI-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-24" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-21" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Cada módulo tem sua pasta de testes correspondente" vertex="1">
+          <mxGeometry height="60" width="120" x="320" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-25" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-22" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Use o padrão nomeDaFuncao.test.ext" vertex="1">
+          <mxGeometry height="60" width="150" x="380" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-40" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-23" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Cada teste deve verificar um único comportamento" vertex="1">
+          <mxGeometry height="60" width="120" x="440" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-26" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;div style=&quot;text-align: start;&quot;&gt;&lt;span style=&quot;background-color: transparent; font-size: 13px; font-weight: 400; text-wrap-mode: nowrap;&quot;&gt;&lt;font color=&quot;#cccccc&quot; face=&quot;Segoe WPC, Segoe UI, sans-serif&quot;&gt;✅&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Código confiável&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="130" x="1090" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-37" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="160" width="700" x="480" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-35" parent="Tzc-8lZmMvzsrZfGIFRI-37" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;" value="&lt;span style=&quot;font-weight: 700; text-align: start; white-space: nowrap;&quot;&gt;✅ Benefícios do TDD&lt;/span&gt;" vertex="1">
+          <mxGeometry height="160" width="700.0000000000001" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-36" parent="Tzc-8lZmMvzsrZfGIFRI-37" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="&lt;ol style=&quot;text-align: left;&quot;&gt;&lt;li&gt;🔒 Maior confiabilidade: O código é validado continuamente por uma suite de testes&lt;/li&gt;&lt;li&gt;🐛 Redução de bugs: Erros são capturados no momento em que são introduzidos&lt;/li&gt;&lt;li&gt;🧼 Design mais limpo: A escrita do teste força um acoplamento menor e interfaces mais claras&lt;/li&gt;&lt;li&gt;⚡ Feedback rápido: Falhas são detectadas em segundos, não dias&lt;/li&gt;&lt;li&gt;📖 Documentação viva: Os testes documentam o comportamento esperado do sistema&lt;/li&gt;&lt;li&gt;🛡️ Refatoração segura: Você pode melhorar o código com a confiança de que os testes validam o comportamento&lt;/li&gt;&lt;/ol&gt;" vertex="1">
+          <mxGeometry height="104.6153846153846" width="673.0769230769232" x="13.461538461538463" y="43.07692307692307" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-38" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=center;" value="&lt;div&gt;&lt;b&gt;🧭 O que é TDD?&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;TDD (Desenvolvimento Orientado a Testes) é uma prática de desenvolvimento onde os &lt;b&gt;testes são escritos antes do código&lt;/b&gt; de produção. O ciclo curto e repetitivo &quot;Red → Green → Refactor&quot; guia o design do software, garantindo que cada funcionalidade seja validada desde o início.&lt;b&gt;&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="160" width="380" x="80" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-39" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Testes não devem depender uns dos outros nem de estado global" vertex="1">
+          <mxGeometry height="60" width="120" x="510" y="1030" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-46" connectable="0" parent="1" style="group" value="" vertex="1">
+          <mxGeometry height="360" width="300" x="650" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-41" parent="Tzc-8lZmMvzsrZfGIFRI-46" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;arcSize=16;" value="&lt;h2 data-line=&quot;36&quot; class=&quot;code-line&quot; dir=&quot;auto&quot; id=&quot;-estruturação-de-testes&quot; style=&quot;margin-top: 24px; margin-bottom: 16px; line-height: 1.25; padding-bottom: 0.3em; border-bottom: 1px solid rgba(255, 255, 255, 0.18); border-top-color: rgba(255, 255, 255, 0.18); border-right-color: rgba(255, 255, 255, 0.18); border-left-color: rgba(255, 255, 255, 0.18); color: rgb(187, 190, 191); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, system-ui, Ubuntu, &amp;quot;Droid Sans&amp;quot;, sans-serif; text-align: start;&quot;&gt;&lt;br&gt;&lt;/h2&gt;" vertex="1">
+          <mxGeometry height="360" width="300" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-42" parent="Tzc-8lZmMvzsrZfGIFRI-46" style="rounded=1;whiteSpace=wrap;html=1;align=left;strokeColor=none;" value="&lt;div&gt;&lt;font&gt;projeto/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;├── src/&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;# Código de produção&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;├── modules/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;├── auth/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;├── auth.service.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;└── auth.controller.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;└── payment/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;├── payment.service.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;└── payment.controller.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;└── ...&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;├── tests/&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;# Testes (espelham src/)&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;├── modules/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;├── auth/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;├── auth.service.test.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;└── auth.controller.test.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp;└── payment/&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;├── payment.service.test.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;│&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;└── payment.controller.test.ts&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font&gt;│&amp;nbsp; &amp;nbsp;└── ...&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&lt;font&gt;└── ...&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="270" width="270" x="20" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-44" parent="Tzc-8lZmMvzsrZfGIFRI-46" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;b&gt;📁Convenção recomendada&lt;/b&gt;" vertex="1">
+          <mxGeometry height="30" width="190" x="55" y="5" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

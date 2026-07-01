@@ -1,0 +1,55 @@
+<mxfile host="Electron">
+  <diagram name="Página-1" id="wKXT8_8bTK-yPzNOp03_">
+    <mxGraphModel dx="1786" dy="856" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-18" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; font-weight: 400; text-align: start; white-space: nowrap;&quot;&gt;🧠&lt;/span&gt;Filosofia" vertex="1">
+          <mxGeometry height="120" width="360" x="80" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Testes antes do código" vertex="1">
+          <mxGeometry height="60" width="120" x="120" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Design guiado por testes" vertex="1">
+          <mxGeometry height="60" width="120" x="280" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; font-weight: 400; text-align: start; white-space: nowrap;&quot;&gt;🔄&lt;/span&gt;Ciclo" vertex="1">
+          <mxGeometry height="280" width="510" x="640" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-12" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; white-space: nowrap;&quot;&gt;🔴&lt;/span&gt;RED" vertex="1">
+          <mxGeometry height="60" width="120" x="660" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-14" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="Tzc-8lZmMvzsrZfGIFRI-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; white-space: nowrap;&quot;&gt;🟢&lt;/span&gt;GREEN" vertex="1">
+          <mxGeometry height="60" width="120" x="1010" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-16" edge="1" parent="1" source="Tzc-8lZmMvzsrZfGIFRI-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;curved=1;" target="Tzc-8lZmMvzsrZfGIFRI-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; white-space: nowrap;&quot;&gt;🔵&lt;/span&gt;REFACTOR" vertex="1">
+          <mxGeometry height="60" width="120" x="840" y="605" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1. Escreva um teste que falhe" vertex="1">
+          <mxGeometry height="30" width="120" x="840" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="2. Escreva código suficiente para passar no teste" vertex="1">
+          <mxGeometry height="30" width="120" x="930" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="3. Melhore o código mantendo os testes verdes" vertex="1">
+          <mxGeometry height="30" width="120" x="720" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="Tzc-8lZmMvzsrZfGIFRI-19" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fontStyle=1" value="&lt;span style=&quot;color: rgb(204, 204, 204); font-family: &amp;quot;Segoe WPC&amp;quot;, &amp;quot;Segoe UI&amp;quot;, sans-serif; font-size: 13px; font-weight: 400; text-align: start; white-space: nowrap;&quot;&gt;🧠&lt;/span&gt;Filosofia" vertex="1">
+          <mxGeometry height="120" width="360" x="80" y="560" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

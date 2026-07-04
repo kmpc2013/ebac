@@ -1,5 +1,4 @@
 from celery_app import celery_app
-import time
 
 @celery_app.task(name="task.somar", bind=True)
 def somar(self, a, b):

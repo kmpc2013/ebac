@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool  # ← Adicione este import
 from main import Base, LivroDB, app, sessao_db  # ← Importe sessao_db
 from fastapi.testclient import TestClient
-import os
 
 
 DATABASE_URL_TEST = "sqlite:///:memory:"

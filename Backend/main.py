@@ -8,8 +8,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel
-from typing import Optional
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from tasks import somar, fatorial
@@ -55,17 +54,6 @@ class Livro(BaseModel):
     nome_livro: str
     autor_livro: str
     ano_livro: int
-
-# ---------------------------------------------------------------------------
-# Redis
-# ---------------------------------------------------------------------------
-
-redis_client = redis.Redis(
-    host='redis',
-    port=6379,
-    db=0,
-    decode_responses=True,
-)
 
 def salvar_livro_redis(livro_id: int, livro: Livro):
     redis_client.set(f"livro:{livro_id}", json.dumps(livro.dict()))

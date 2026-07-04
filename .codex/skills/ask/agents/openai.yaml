@@ -1,7 +1,0 @@
-interface:
-  display_name: "Ask"
-  short_description: "Read-only project Q&A"
-  default_prompt: "Use $ask to answer questions about the project context without making changes and cite files or lines when available."
-
-policy:
-  allow_implicit_invocation: false

@@ -8,6 +8,10 @@ dependencies = [
     "aiosqlite>=0.22.1",
     "fastapi[standard]>=0.136.1",
     "sqlalchemy>=2.0.49",
+    "redis>=5.0.0",
+    "celery>=5.4.0",
+    "python-dotenv>=1.0.0",
+    "kafka-python>=2.0.2",
 ]
 
 [tool.pytest.ini_options]

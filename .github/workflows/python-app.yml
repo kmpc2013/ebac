@@ -51,6 +51,9 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: fastapi-app
+      IMAGE_TAG: latest
 
     defaults:
       run:
@@ -117,7 +120,36 @@ jobs:
             Backend/coverage.xml
             Backend/htmlcov
 
+      - name: Build Docker image
+        run: docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" .
+
+      - name: Run Docker container
+        run: |
+          docker run -d --name fastapi-app-test -p 8000:8000 \
+            -e DATABASE_URL=sqlite:///./data/livros.db \
+            -e MEU_USUARIO=admin \
+            -e MINHA_SENHA=admin \
+            -e REDIS_HOST=127.0.0.1 \
+            -e REDIS_PORT=6379 \
+            -e KAFKA_SERVER=localhost:9092 \
+            "${IMAGE_NAME}:${IMAGE_TAG}"
+
+          for _ in {1..15}; do
+            if curl --fail --silent --show-error http://127.0.0.1:8000/ > /dev/null; then
+              exit 0
+            fi
+
+            sleep 2
+          done
+
+          docker logs fastapi-app-test
+          exit 1
+
+      - name: Stop Docker container
+        if: always()
+        run: docker rm -f fastapi-app-test || true
+
       # ─── Cleanup ───────────────────────────────────────────────────────
       - name: Stop Docker Compose services
         if: always()
-        run: docker compose down
+        run: docker compose down || true

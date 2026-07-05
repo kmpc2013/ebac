@@ -45,17 +45,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      redis:
-        image: redis:alpine
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     defaults:
       run:
         working-directory: ./Backend
@@ -63,6 +52,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # ─── Docker Compose ────────────────────────────────────────────────
+      - name: Populate Celery .venv volume
+        run: docker compose run --rm --no-deps -e UV_SYSTEM_PYTHON=0 celery uv sync --frozen --no-dev
+
+      - name: Start services via Docker Compose
+        run: docker compose up -d redis celery kafka
+
+      - name: Wait for services to be healthy
+        run: docker compose up --wait --wait-timeout 120 redis celery kafka
+
+      # ─── Python ────────────────────────────────────────────────────────
       - name: Set up Python 3.14
         uses: actions/setup-python@v5
         with:
@@ -87,6 +87,7 @@ jobs:
           MINHA_SENHA: admin
           REDIS_HOST: localhost
           REDIS_PORT: 6379
+          KAFKA_SERVER: localhost:9094
         run: uv run pytest --cov=main --cov=tasks --cov=celery_app --cov=kafka_producer --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=html:htmlcov
 
       - name: Upload coverage artifacts
@@ -96,3 +97,8 @@ jobs:
           path: |
             Backend/coverage.xml
             Backend/htmlcov
+
+      # ─── Cleanup ───────────────────────────────────────────────────────
+      - name: Stop Docker Compose services
+        if: always()
+        run: docker compose down

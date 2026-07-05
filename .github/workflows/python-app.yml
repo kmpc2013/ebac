@@ -53,6 +53,16 @@ jobs:
       - uses: actions/checkout@v4
 
       # ─── Docker Compose ────────────────────────────────────────────────
+      - name: Create .env file for Docker Compose
+        run: |
+          echo "DATABASE_URL=sqlite:///./livros.db" > .env
+          echo "MEU_USUARIO=admin" >> .env
+          echo "MINHA_SENHA=admin" >> .env
+          echo "REDIS_HOST=redis" >> .env
+          echo "REDIS_PORT=6379" >> .env
+          echo "REDIS_URL=redis://redis:6379/0" >> .env
+          echo "KAFKA_SERVER=livros-kafka:9092" >> .env
+
       - name: Populate Celery .venv volume
         run: docker compose run --rm --no-deps -e UV_SYSTEM_PYTHON=0 celery uv sync --frozen --no-dev
 

@@ -63,9 +63,6 @@ jobs:
           echo "REDIS_URL=redis://redis:6379/0" >> .env
           echo "KAFKA_SERVER=livros-kafka:9092" >> .env
 
-      - name: Populate Celery .venv volume
-        run: docker compose run --rm --no-deps -e UV_SYSTEM_PYTHON=0 celery uv sync --frozen --no-dev
-
       - name: Start services via Docker Compose
         run: docker compose up -d redis celery kafka
 

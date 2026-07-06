@@ -16,6 +16,11 @@ from celery_app import celery_app
 from celery.result import AsyncResult
 from kafka_producer import enviar_evento
 
+import logging.config
+import yaml
+from elasticsearch import Elasticsearch
+from datetime import datetime
+
 # ---------------------------------------------------------------------------
 # Configuração
 # ---------------------------------------------------------------------------
@@ -87,9 +92,22 @@ def autenticar(credentials: HTTPBasicCredentials = Depends(security)):
         )
 
 # ---------------------------------------------------------------------------
-# Aplicação
+# Elasticsearch
 # ---------------------------------------------------------------------------
 
+es = Elasticsearch([{"host": "elasticsearch", "port": 9200}])
+with open("logging.yaml", "r") as f:
+    config = yaml.safe_load()
+    logging.config.dictConfig(config)
+logger = logging.getLogger(__name__)
+logger.info("Aplicação iniciada com sucesso!")
+ELASTICSEARCH_URL = os.getenv("ELASTICSEARCH_URL", "http://elasticsearch:9200")
+ELASTICSEARCH_INDEX = os.getenv("ELASTICSEARCH_INDEX", "livros-logs")
+es_client = Elasticsearch(ELASTICSEARCH_URL)
+
+# ---------------------------------------------------------------------------
+# Aplicação
+# ---------------------------------------------------------------------------
 app = FastAPI(
     title="API de livros",
     description="API para gerenciar catálogo de livros",
@@ -107,6 +125,7 @@ app = FastAPI(
 
 @app.get("/")
 async def hellow_world():
+    logger.info("Rota raiz acessada.")
     return {"Hello": "World!"}
 
 # ---------------------------------------------------------------------------
@@ -159,6 +178,7 @@ def get_livros(
 
     if cached:
         return json.loads(cached)
+    
     livros = db.query(LivroDB).offset((page - 1) * limit).limit(limit).all()
     if not livros:
         return {"message": "Nenhum livro encontrado."}
@@ -178,6 +198,22 @@ def get_livros(
         ]
     }
     redis_client.setex(cache_key, 30,  json.dumps(resposta))
+
+    log = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "endpoint": "/livros",
+        "method": "GET",
+        "usuario": credentials.username,
+        "page": page,
+        "limit": limit,
+        "status": "success" if livros else "no_content",
+        "total_livros": total_livros
+    }
+    try:
+        es_client.index(index=ELASTICSEARCH_INDEX, body=log)
+    except Exception as e:
+        logger.error(f"Erro ao indexar log no Elasticsearch: {e}")
+
     return resposta
 
 @app.post("/adiciona")

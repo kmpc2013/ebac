@@ -15,10 +15,6 @@ jobs:
   lint:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./Backend
-
     steps:
       - uses: actions/checkout@v4
 
@@ -27,27 +23,22 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Install uv
-        run: python -m pip install uv
+      - name: Install Poetry
+        run: python -m pip install poetry
 
-      - name: Cache uv
+      - name: Cache Poetry
         uses: actions/cache@v4
         with:
-          path: ~/.cache/uv
-          key: uv-${{ runner.os }}-${{ hashFiles('Backend/uv.lock', 'Backend/pyproject.toml') }}
-
-      - name: Create temporary virtual environment
-        run: uv venv --clear "$RUNNER_TEMP/venv"
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock', 'pyproject.toml') }}
 
       - name: Install dependencies
-        env:
-          VIRTUAL_ENV: ${{ runner.temp }}/venv
-        run: uv sync --active --frozen --group dev
+        run: poetry install --no-root --with dev
 
       - name: Lint with ruff
-        env:
-          VIRTUAL_ENV: ${{ runner.temp }}/venv
-        run: uv run --active ruff check main.py celery_app.py tasks.py kafka_producer.py tests
+        run: poetry run ruff check main.py celery_app.py tasks.py kafka_producer.py tests
 
   test:
     runs-on: ubuntu-latest
@@ -55,10 +46,6 @@ jobs:
       IMAGE_NAME: fastapi-app
       IMAGE_TAG: latest
 
-    defaults:
-      run:
-        working-directory: ./Backend
-
     steps:
       - uses: actions/checkout@v4
 
@@ -67,22 +54,19 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Install uv
-        run: python -m pip install uv
+      - name: Install Poetry
+        run: python -m pip install poetry
 
-      - name: Cache uv
+      - name: Cache Poetry
         uses: actions/cache@v4
         with:
-          path: ~/.cache/uv
-          key: uv-${{ runner.os }}-${{ hashFiles('Backend/uv.lock', 'Backend/pyproject.toml') }}
-
-      - name: Create temporary virtual environment
-        run: uv venv --clear "$RUNNER_TEMP/venv"
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock', 'pyproject.toml') }}
 
       - name: Install dependencies
-        env:
-          VIRTUAL_ENV: ${{ runner.temp }}/venv
-        run: uv sync --active --frozen --group dev
+        run: poetry install --no-root --with dev
 
       # ─── Docker Compose ────────────────────────────────────────────────
       - name: Create .env file for Docker Compose
@@ -103,22 +87,21 @@ jobs:
 
       - name: Test with pytest and coverage
         env:
-          VIRTUAL_ENV: ${{ runner.temp }}/venv
           DATABASE_URL: sqlite:///./test.db
           MEU_USUARIO: admin
           MINHA_SENHA: admin
           REDIS_HOST: localhost
           REDIS_PORT: 6379
           KAFKA_SERVER: localhost:9094
-        run: uv run --active pytest --cov=main --cov=tasks --cov=celery_app --cov=kafka_producer --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=html:htmlcov
+        run: poetry run pytest --cov=main --cov=tasks --cov=celery_app --cov=kafka_producer --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=html:htmlcov
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: |
-            Backend/coverage.xml
-            Backend/htmlcov
+            coverage.xml
+            htmlcov
 
       - name: Build Docker image
         run: docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" .

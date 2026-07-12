@@ -15,7 +15,7 @@
 ### 2. Dockerfile
 - **Forma:** Documento
 - **Cor:** Azul (`#dae8fc`)
-- **Conteúdo:** Instruções de build da imagem — FROM python:3.14-slim, WORKDIR /app, COPY dos arquivos, RUN uv sync, EXPOSE 8000, CMD uvicorn
+- **Conteúdo:** Instruções de build da imagem — FROM python:3.14-slim, WORKDIR /app, COPY dos arquivos, RUN poetry install, EXPOSE 8000, CMD uvicorn
 - **Localização no diagrama:** Centro do bloco HOST
 
 ### 3. docker-compose.yml
@@ -33,7 +33,7 @@
 ### 5. Imagem Docker
 - **Forma:** Hexágono
 - **Cor:** Roxo (`#e1d5e7`)
-- **Conteúdo:** Imagem final com Python 3.14-slim, uv, main.py, livros.db e dependências
+- **Conteúdo:** Imagem final com Python 3.14-slim, poetry, main.py, livros.db e dependências
 - **Localização no diagrama:** Centro-direita do bloco HOST
 
 ### 6. Containers (3 unidades)

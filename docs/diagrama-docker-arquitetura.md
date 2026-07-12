@@ -27,7 +27,7 @@
 │          │    │                              │   │                                       │
 │          │    │  ┌────────────────────────┐  │   │                                       │
 │          │    │  │  Python 3.14-slim      │  │   │                                       │
-│          │    │  │  + uv (gerenciador)    │  │   │                                       │
+│          │    │  │  + poetry (gerenciador)│  │   │                                       │
 │          │    │  │  + main.py             │  │   │                                       │
 │          │    │  │  + livros.db           │  │   │                                       │
 │          │    │  │  + dependências        │  │   │                                       │
@@ -156,10 +156,10 @@
 │  3. Dockerfile é processado:                                                   │
 │     ┌──────────────────────────────────────────────────────────────────┐       │
 │     │  FROM python:3.14-slim-bookworm                                  │       │
-│     │  COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/         │       │
+│     │  RUN python -m pip install poetry                                │       │
 │     │  WORKDIR /app                                                    │       │
-│     │  COPY pyproject.toml uv.lock ./                                  │       │
-│     │  RUN uv sync --frozen --no-dev                                   │       │
+│     │  COPY pyproject.toml poetry.lock ./                               │       │
+│     │  RUN poetry install --only main --no-root                        │       │
 │     │  COPY main.py ./                                                 │       │
 │     │  EXPOSE 8000                                                     │       │
 │     │  CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]│     │

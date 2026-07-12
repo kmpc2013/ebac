@@ -91,19 +91,28 @@ def autenticar(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"}
         )
 
-# ---------------------------------------------------------------------------
-# Elasticsearch
-# ---------------------------------------------------------------------------
+    return credentials
 
-es = Elasticsearch([{"host": "elasticsearch", "port": 9200}])
-with open("logging.yaml", "r") as f:
-    config = yaml.safe_load()
-    logging.config.dictConfig(config)
-logger = logging.getLogger(__name__)
-logger.info("Aplicação iniciada com sucesso!")
 ELASTICSEARCH_URL = os.getenv("ELASTICSEARCH_URL", "http://elasticsearch:9200")
 ELASTICSEARCH_INDEX = os.getenv("ELASTICSEARCH_INDEX", "livros-logs")
 es_client = Elasticsearch(ELASTICSEARCH_URL)
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+
+try:
+    with open("logging.yaml", "r") as f:
+        config = yaml.safe_load(f)
+        if config:
+            logging.config.dictConfig(config)
+        else:
+            logging.basicConfig(level=logging.INFO)
+except FileNotFoundError:
+    logging.basicConfig(level=logging.INFO)
+
+logger = logging.getLogger(__name__)
+logger.info("Aplicação iniciada com sucesso!")
 
 # ---------------------------------------------------------------------------
 # Aplicação

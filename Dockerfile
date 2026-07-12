@@ -1,18 +1,17 @@
 FROM python:3.14-slim-bookworm
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy \
-    UV_SYSTEM_PYTHON=1 \
+ENV POETRY_VERSION=2.4.1 \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
     PATH="/app/.venv/bin:$PATH"
+
+RUN python -m pip install --no-cache-dir "poetry==${POETRY_VERSION}"
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock ./
+COPY pyproject.toml poetry.lock ./
 
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev
+RUN poetry install --only main --no-root
 
 COPY main.py celery_app.py tasks.py kafka_producer.py ./
 

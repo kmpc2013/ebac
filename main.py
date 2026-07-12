@@ -31,6 +31,7 @@ MEU_USUARIO = os.getenv("MEU_USUARIO")
 MINHA_SENHA = os.getenv("MINHA_SENHA")
 REDIS_HOST = os.getenv("REDIS_HOST", "redis")
 REDIS_PORT = os.getenv("REDIS_PORT", "6379")
+LOGS_DIR = "logs"
 
 # ---------------------------------------------------------------------------
 # Banco de dados
@@ -100,6 +101,8 @@ es_client = Elasticsearch(ELASTICSEARCH_URL)
 # ---------------------------------------------------------------------------
 # Logging
 # ---------------------------------------------------------------------------
+
+os.makedirs(LOGS_DIR, exist_ok=True)
 
 try:
     with open("logging.yaml", "r") as f:

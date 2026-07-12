@@ -13,9 +13,9 @@ COPY pyproject.toml poetry.lock ./
 
 RUN poetry install --only main --no-root
 
-COPY main.py celery_app.py tasks.py kafka_producer.py ./
+COPY main.py celery_app.py tasks.py kafka_producer.py logging.yaml ./
 
-RUN mkdir -p data && touch data/livros.db
+RUN mkdir -p data logs && touch data/livros.db
 
 EXPOSE 8000
 

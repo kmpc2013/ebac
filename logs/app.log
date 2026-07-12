@@ -49,3 +49,21 @@
 Retry limit exceeded while trying to reconnect to the Celery result store
 backend. The Celery application must be restarted.
 
+2026-07-12 13:49:30,473 INFO main Aplicação iniciada com sucesso!
+2026-07-12 13:49:30,772 INFO httpx HTTP Request: GET http://testserver/livros "HTTP/1.1 200 OK"
+2026-07-12 13:49:30,942 INFO httpx HTTP Request: GET http://testserver/livros "HTTP/1.1 401 Unauthorized"
+2026-07-12 13:49:31,119 INFO httpx HTTP Request: GET http://testserver/livros "HTTP/1.1 401 Unauthorized"
+2026-07-12 13:49:31,316 INFO elastic_transport.transport POST http://localhost:9200/livros-logs/_doc [status:400 duration:0.048s]
+2026-07-12 13:49:31,317 ERROR main Erro ao indexar log no Elasticsearch: BadRequestError(400, 'media_type_header_exception', 'Invalid media-type value on headers [Content-Type, Accept]', Accept version must be either version 8 or 7, but found 9. Accept=application/vnd.elasticsearch+json; compatible-with=9)
+2026-07-12 13:49:31,319 INFO httpx HTTP Request: GET http://testserver/livros "HTTP/1.1 200 OK"
+2026-07-12 13:49:31,510 INFO elastic_transport.transport POST http://localhost:9200/livros-logs/_doc [status:400 duration:0.047s]
+2026-07-12 13:49:31,510 ERROR main Erro ao indexar log no Elasticsearch: BadRequestError(400, 'media_type_header_exception', 'Invalid media-type value on headers [Content-Type, Accept]', Accept version must be either version 8 or 7, but found 9. Accept=application/vnd.elasticsearch+json; compatible-with=9)
+2026-07-12 13:49:31,513 INFO httpx HTTP Request: GET http://testserver/livros "HTTP/1.1 200 OK"
+2026-07-12 13:49:31,520 INFO main Rota raiz acessada.
+2026-07-12 13:49:31,522 INFO httpx HTTP Request: GET http://testserver/ "HTTP/1.1 200 OK"
+2026-07-12 13:49:31,567 INFO celery.app.trace Task task.somar[de79bf39-99f3-467b-b107-644d55e6b0ff] succeeded in 0.036624799999117386s: 8
+2026-07-12 13:49:31,569 INFO celery.app.trace Task task.fatorial[9a5fdbfe-b805-4fbf-a0c6-fda2b5f7980d] succeeded in 9.589999535819516e-05s: 120
+2026-07-12 13:49:31,576 INFO httpx HTTP Request: POST http://testserver/calcular/soma?a=1&b=2 "HTTP/1.1 200 OK"
+2026-07-12 13:49:31,584 INFO httpx HTTP Request: POST http://testserver/calcular/fatorial?n=4 "HTTP/1.1 200 OK"
+2026-07-12 16:49:51,718 INFO main AplicaÃ§Ã£o iniciada com sucesso!
+2026-07-12 16:50:03,534 INFO main Rota raiz acessada.

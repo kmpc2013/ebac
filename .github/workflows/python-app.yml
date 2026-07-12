@@ -93,7 +93,7 @@ jobs:
           REDIS_HOST: localhost
           REDIS_PORT: 6379
           KAFKA_SERVER: localhost:9094
-        run: poetry run pytest --cov=main --cov=tasks --cov=celery_app --cov=kafka_producer --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=html:htmlcov
+        run: poetry run python -m pytest --cov=main --cov=tasks --cov=celery_app --cov=kafka_producer --cov-report=term-missing --cov-report=xml:coverage.xml --cov-report=html:htmlcov
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
